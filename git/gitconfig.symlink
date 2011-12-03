@@ -1,0 +1,30 @@
+[user]
+	name = François Bernier
+	email = your@example.com
+[color]
+	status = auto
+	branch = auto
+	diff = auto
+[github]
+        user = fbernier
+[mergetool]
+        keepBackup = false
+[alias]
+	st = status
+	ci = commit
+	cia = commit --amend
+	co = checkout
+	br = branch
+	sb = show-branch
+	cp = cherry-pick
+	staged = diff --cached
+	rb = rebase
+	rbc = rebase --continue
+	rbs = rebase --skip
+	rl = reflog
+	rs = remote show
+	rt = remote
+	ru = remote update
+	rp = remote prune
+	sm = submodule
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative 
