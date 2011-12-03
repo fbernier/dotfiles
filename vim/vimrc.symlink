@@ -17,7 +17,6 @@ set smartcase
 set scrolloff=3
 set autoindent
 set hlsearch
-set visualbell
 
 filetype plugin indent on
 set background=dark
@@ -26,8 +25,8 @@ let mapleader = ","
 nnoremap ; :
 
 if has('gui_running')
-  set guifont=Inconsolata:h15
-  
+  set guifont=Inconsolata\ 14
+
   " Don't show scroll bars in the GUI
   set guioptions-=L
   set guioptions-=r
@@ -58,6 +57,7 @@ map <Leader>n :NERDTreeToggle<CR>
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal g'\"" | endif
+  autocmd VimEnter * set vb t_vb=
 endif
 
 " add json syntax highlighting
@@ -80,10 +80,14 @@ set directory=~/.vim/backup
 " Show (partial) command in the status line
 set showcmd
 
+" tab to indent
 vnoremap < <gv
 vnoremap > >gv|
 vnoremap <Tab> >gv|
 vnoremap <S-Tab> <gv
+
+map <leader>/ <plug>NERDCommenterToggle<CR>
+imap <leader>/ <Esc><plug>NERDCommenterToggle<CR>i
 
 " Unbind arrows {{{
 nnoremap <Up> <Esc>
