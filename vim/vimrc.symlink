@@ -80,9 +80,10 @@ set directory=~/.vim/backup
 " Show (partial) command in the status line
 set showcmd
 
-" Command-][ to increase/decrease indentation
-vmap <leader>] >gv
-vmap <leader>[ <gv
+vnoremap < <gv
+vnoremap > >gv|
+vnoremap <Tab> >gv|
+vnoremap <S-Tab> <gv
 
 " Unbind arrows {{{
 nnoremap <Up> <Esc>
