@@ -25,7 +25,11 @@ let mapleader = ","
 nnoremap ; :
 
 if has('gui_running')
-  set guifont=Inconsolata\ 14
+  if has('gui_mac')
+    set guifont=Inconsolata:h14
+  elseif has('gui_gtk2')
+    set guifont=Inconsolata\ 14
+  endif
 
   " Don't show scroll bars in the GUI
   set guioptions-=L
