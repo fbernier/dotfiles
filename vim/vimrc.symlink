@@ -17,17 +17,22 @@ set smartcase
 set scrolloff=3
 set autoindent
 set hlsearch
-
-" Don't show scroll bars in the GUI
-set guioptions-=L
-set guioptions-=r
+set visualbell
 
 filetype plugin indent on
 set background=dark
 colorscheme solarized
 let mapleader = ","
 nnoremap ; :
-set guifont=Inconsolata\ 14
+
+if has('gui_running')
+  set guifont=Inconsolata:h15
+  
+  " Don't show scroll bars in the GUI
+  set guioptions-=L
+  set guioptions-=r
+  set guioptions-=T  "remove toolbar
+endif
 
 " Whitespace stuff
 set nowrap

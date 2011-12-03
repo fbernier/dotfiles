@@ -33,7 +33,7 @@ task :install do
     `ln -s "$PWD/#{linkable}" "#{target}"`
   end
   # update every vim plugins
-  `cd git submodule foreach git pull`
+  `git submodule foreach git pull`
 end
 
 task :uninstall do
