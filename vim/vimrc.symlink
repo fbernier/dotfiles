@@ -50,7 +50,7 @@ set list listchars=tab:\ \ ,trail:·
 " Tab completion
 set wildmenu
 set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.class,.svn,vendor/gems/*
+set wildignore+=*/.svn/*,*/.hg/*,*/.git/*,*.o,*.obj,*.rbc,*.class,vendor/gems/*,*.DS_Store,*.rvmrc,*.gitignore,*.jpg,*.bmp,*.gif,*.png,*.jpeg,*.sw?,*.pyc
 
 " Status bar
 set laststatus=2
