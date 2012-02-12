@@ -28,3 +28,5 @@
 	rp = remote prune
 	sm = submodule
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative 
+[dude]
+	icon = /home/fbernier/.git-dude/github_32.png
