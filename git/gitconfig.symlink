@@ -1,12 +1,12 @@
 [user]
-	name = François Bernier
-	email = your@example.com
+	name = Francois Bernier
+	email = frankbernier@gmail.com
 [color]
 	status = auto
 	branch = auto
 	diff = auto
 [github]
-        user = fbernier
+	user = fbernier
 [mergetool]
         keepBackup = false
 [alias]
