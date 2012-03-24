@@ -16,7 +16,7 @@ set history=1000
 set encoding=utf-8
 set ignorecase
 set smartcase
-set scrolloff=3
+set scrolloff=5
 set autoindent
 set hlsearch
 set autoread
