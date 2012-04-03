@@ -2,7 +2,6 @@
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
-let g:pathogen_disabled = ['command-t']
 call pathogen#infect()
 
 set nocompatible " This must be first, because it changes other options as a side effect.
