@@ -26,6 +26,9 @@ colorscheme solarized
 let mapleader = ","
 nnoremap ; :
 
+" Close a buffer but not the split window
+nmap ,d :b#<bar>bd#<CR>
+
 if has('gui_running')
   if has('gui_macvim')
     set guifont=Inconsolata:h15
@@ -112,3 +115,9 @@ nnoremap <Right> <Esc>
 vnoremap <Right> <NOP>
 inoremap <Right> <NOP>
 " }}}
+
+" tab next/previous and move tabs
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
