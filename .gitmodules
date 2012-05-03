@@ -61,3 +61,9 @@
 [submodule "vim/vim.symlink/bundle/tagbar"]
 	path = vim/vim.symlink/bundle/tagbar
 	url = git://github.com/majutsushi/tagbar.git
+[submodule "vim/vim.symlink/bundle/vim-css3-syntax"]
+	path = vim/vim.symlink/bundle/vim-css3-syntax
+	url = https://github.com/hail2u/vim-css3-syntax.git
+[submodule "vim/vim.symlink/bundle/vim-less"]
+	path = vim/vim.symlink/bundle/vim-less
+	url = https://github.com/groenewege/vim-less.git

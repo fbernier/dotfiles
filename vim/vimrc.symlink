@@ -85,6 +85,9 @@ set backspace=indent,eol,start
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_warnings=1
 
+" ack ouput
+let g:ackprg="ack -H --nocolor --nogroup --column"
+
 " Directories for swp files
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
