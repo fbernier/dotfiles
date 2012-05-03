@@ -23,6 +23,8 @@ bind r source-file ~/.tmux.conf \; display "Reloading config..."
 bind C-p run "xclip -o | tmux load-buffer - ; tmux paste-buffer"
 bind C-y run "tmux save-buffer - | xclip -i -selection clipboard"
 
+bind Escape copy-mode
+
 #### COLOUR
 
 # default statusbar colors
