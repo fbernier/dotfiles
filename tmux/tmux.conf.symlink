@@ -25,6 +25,17 @@ bind C-y run "tmux save-buffer - | xclip -i -selection clipboard"
 
 bind Escape copy-mode
 
+# easily toggle synchronization (mnemonic: e is for echo)
+bind e setw synchronize-panes on
+bind E setw synchronize-panes off
+
+# switch " over to selecting windows
+unbind '"'
+bind-key '"' choose-window
+
+# use ' to switch between sessions
+bind-key "'" choose-session
+
 #### COLOUR
 
 # default statusbar colors
