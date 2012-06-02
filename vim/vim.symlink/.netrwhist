@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/fbernier/repositories/south_shore/app'
+let g:netrw_dirhist_2='/home/fbernier/repositories/southshore_fb/app'
+let g:netrw_dirhist_3='/home/fbernier/repositories/southshore_fb'
+let g:netrw_dirhist_4='/home/fbernier/repositories/SouthShoreFb/public'
+let g:netrw_dirhist_5='/home/fbernier/repositories/SouthShoreFb/config'
+let g:netrw_dirhist_6='/home/fbernier/repositories/southshorefb/app/views/rules'

@@ -29,6 +29,9 @@ nnoremap ; :
 " Close a buffer but not the split window
 nmap ,d :b#<bar>bd#<CR>
 
+" Indents a whole buffer
+nmap <Leader>f gg=G
+
 if has('gui_running')
   if has('gui_macvim')
     set guifont=Inconsolata:h15
