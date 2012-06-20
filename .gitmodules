@@ -73,3 +73,6 @@
 [submodule "vim/vim.symlink/bundle/nginx-vim-syntax"]
 	path = vim/vim.symlink/bundle/nginx-vim-syntax
 	url = https://github.com/evanmiller/nginx-vim-syntax.git
+[submodule "vim/vim.symlink/bundle/SudoEdit"]
+	path = vim/vim.symlink/bundle/SudoEdit
+	url = https://github.com/chrisbra/SudoEdit.vim.git
