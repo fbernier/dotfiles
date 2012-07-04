@@ -19,9 +19,6 @@
 [submodule "vim/vim.symlink/bundle/vim-coffee-script"]
 	path = vim/vim.symlink/bundle/vim-coffee-script
 	url = git://github.com/kchmck/vim-coffee-script.git
-[submodule "vim/vim.symlink/bundle/vim-color-solarized"]
-	path = vim/vim.symlink/bundle/vim-color-solarized
-	url = git://github.com/altercation/vim-colors-solarized.git
 [submodule "vim/vim.symlink/bundle/vim-endwise"]
 	path = vim/vim.symlink/bundle/vim-endwise
 	url = git://github.com/tpope/vim-endwise.git
@@ -76,3 +73,9 @@
 [submodule "vim/vim.symlink/bundle/SudoEdit"]
 	path = vim/vim.symlink/bundle/SudoEdit
 	url = https://github.com/chrisbra/SudoEdit.vim.git
+[submodule "vim/vim.symlink/bundle/vim-colors-solarized"]
+	path = vim/vim.symlink/bundle/vim-colors-solarized
+	url = https://github.com/skwp/vim-colors-solarized.git
+[submodule "vim/vim.symlink/bundle/vim-tomorrow-theme"]
+	path = vim/vim.symlink/bundle/vim-tomorrow-theme
+	url = https://github.com/chriskempson/vim-tomorrow-theme.git

@@ -22,7 +22,7 @@ set autoread
 
 filetype plugin indent on
 set background=dark
-colorscheme solarized
+colorscheme Tomorrow-Night
 let mapleader = ","
 nnoremap ; :
 
@@ -36,7 +36,7 @@ if has('gui_running')
   if has('gui_macvim')
     set guifont=Inconsolata:h15
   elseif has('gui_gtk2')
-    set guifont=Inconsolata\ 14
+    set guifont=Droid\ Sans\ Mono\ 12
   endif
 
   " Don't show scroll bars in the GUI
