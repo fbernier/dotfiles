@@ -26,7 +26,7 @@ DISABLE_AUTO_TITLE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-flow ruby vi-mode rails osx bundler brew cap gem history-substring-search rvm)
+plugins=(git git-flow ruby rails bundler cap gem history-substring-search rvm)
 
 source $ZSH/oh-my-zsh.sh
 
