@@ -15,7 +15,7 @@ set -g default-command zsh
 set -g default-shell zsh
 set -g history-limit 5000
 set -g base-index 1
-set -g default-terminal "xterm-256color"
+set -g default-terminal "screen-256color"
 set -sg escape-time 0
 set -g status-utf8 on
 bind r source-file ~/.tmux.conf \; display "Reloading config..."
