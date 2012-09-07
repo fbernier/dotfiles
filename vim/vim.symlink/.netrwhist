@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/home/fbernier/repositories/noname/api/config'
 let g:netrw_dirhist_2='/home/fbernier/repositories/dotfiles/vim/vim.symlink'
 let g:netrw_dirhist_3='/home/fbernier/repositories/dotfiles/vim/vim.symlink/bundle/vim-slim'
+let g:netrw_dirhist_4='/etc/resolvconf/resolv.conf.d'

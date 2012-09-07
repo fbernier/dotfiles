@@ -26,6 +26,7 @@ set background=dark
 colorscheme Tomorrow-Night
 let mapleader = ","
 nnoremap ; :
+let g:Powerline_symbols = 'fancy'
 
 " Close a buffer but not the split window
 nmap ,d :b#<bar>bd#<CR>
@@ -37,7 +38,7 @@ if has('gui_running')
   if has('gui_macvim')
     set guifont=Inconsolata:h15
   elseif has('gui_gtk2')
-    set guifont=Droid\ Sans\ Mono\ 12
+    set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
   endif
 
   " Don't show scroll bars in the GUI

@@ -38,6 +38,16 @@ bind-key "'" choose-session
 
 #### COLOUR
 
+### POWERLINE
+set-option -g status on
+set-option -g status-interval 2
+set-option -g status-utf8 on
+set-option -g status-justify "centre"
+set-option -g status-left-length 90
+set-option -g status-right-length 90
+set-option -g status-left "#(~/repositories/tmux-powerline/status-left.sh)"
+set-option -g status-right "#(~/repositories/tmux-powerline/status-right.sh)"
+
 # default statusbar colors
 set-option -g status-bg colour235 #base02
 set-option -g status-fg colour136 #yellow

@@ -5,6 +5,8 @@ css=.sass,.scss
 --type-add
 js=.coffee
 --type-set
+cshtml=.cshtml
+--type-set
 markdown=.markdown,.md,.mdown
 --type-set
 actionscript=.as
@@ -12,6 +14,7 @@ actionscript=.as
 cucumber=.feature
 --type-set
 rdoc=.rdoc
+--cshtml
 --ruby
 --css
 --js
