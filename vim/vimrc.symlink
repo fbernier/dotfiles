@@ -1,10 +1,42 @@
 " This is the vimrc of Francois Bernier
 
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-
-call pathogen#infect()
-
 set nocompatible " This must be first, because it changes other options as a side effect.
+
+" Begin vundle config
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'bbommarito/vim-slim'
+Bundle 'chriskempson/vim-tomorrow-theme'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-rake'
+Bundle 'tpope/vim-rails'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'tpope/vim-markdown'
+Bundle 'groenewege/vim-less'
+Bundle 'pangloss/vim-javascript'
+Bundle 'tpope/vim-haml'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-endwise'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'ap/vim-css-color'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'majutsushi/tagbar'
+Bundle 'scrooloose/syntastic'
+Bundle 'ervandew/supertab'
+Bundle 'evanmiller/nginx-vim-syntax'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'kien/ctrlp.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'chrisbra/SudoEdit.vim'
+
+filetype plugin indent on
+" End vundle config
 
 syntax on
 
@@ -21,7 +53,6 @@ set hlsearch
 set autoread
 set t_Co=256
 
-filetype plugin indent on
 set background=dark
 colorscheme Tomorrow-Night
 let mapleader = ","
