@@ -22,3 +22,5 @@ rdoc=.rdoc
 --actionscript
 --objc
 --ignore-dir=.idea
+--type-set
+yaml=.yml,.yaml

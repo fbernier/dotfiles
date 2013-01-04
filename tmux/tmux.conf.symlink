@@ -36,6 +36,21 @@ bind-key '"' choose-window
 # use ' to switch between sessions
 bind-key "'" choose-session
 
+set-window-option -g automatic-rename off
+
+# extract pane to new window and put it back
+unbind z
+bind z \
+  new-window -d -n tmux-zoom \;\
+  swap-pane -s tmux-zoom.0 \;\
+  select-window -t tmux-zoom
+
+unbind Z
+bind Z \
+  last-window \;\
+  swap-pane -s tmux-zoom.0 \;\
+  kill-window -t tmux-zoom
+
 #### COLOUR
 
 ### POWERLINE
@@ -45,8 +60,8 @@ set-option -g status-utf8 on
 set-option -g status-justify "centre"
 set-option -g status-left-length 90
 set-option -g status-right-length 90
-set-option -g status-left "#(~/repositories/tmux-powerline/status-left.sh)"
-set-option -g status-right "#(~/repositories/tmux-powerline/status-right.sh)"
+set-option -g status-left "#(~/repositories/tmux-powerline/powerline.sh left)"
+set-option -g status-right "#(~/repositories/tmux-powerline/powerline.sh right)"
 
 # default statusbar colors
 set-option -g status-bg colour235 #base02

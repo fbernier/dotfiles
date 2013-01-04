@@ -7,3 +7,6 @@
 *.swn
 *.swm
 *.rbc
+
+vim/vim.symlink/backup/
+vim/vim.symlink/bundle/

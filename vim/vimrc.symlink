@@ -12,6 +12,8 @@ Bundle 'gmarik/vundle'
 
 Bundle 'bbommarito/vim-slim'
 Bundle 'chriskempson/vim-tomorrow-theme'
+Bundle 'vim-scripts/harlequin'
+"Bundle 'flazz/vim-colorschemes'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rake'
 Bundle 'tpope/vim-rails'
@@ -34,6 +36,10 @@ Bundle 'scrooloose/nerdcommenter'
 Bundle 'kien/ctrlp.vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'chrisbra/SudoEdit.vim'
+Bundle 'jiangmiao/auto-pairs'
+Bundle 'tpope/vim-surround'
+Bundle 'guns/vim-clojure-static'
+Bundle 'kien/rainbow_parentheses.vim'
 
 filetype plugin indent on
 " End vundle config
@@ -54,7 +60,7 @@ set autoread
 set t_Co=256
 
 set background=dark
-colorscheme Tomorrow-Night
+colorscheme harlequin "Tomorrow-Night-Bright
 let mapleader = ","
 nnoremap ; :
 let g:Powerline_symbols = 'fancy'
@@ -113,6 +119,10 @@ au BufNewFile,BufRead *.json set ft=javascript
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
+
+" Rainbow!
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
