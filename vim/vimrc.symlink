@@ -10,7 +10,7 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
-Bundle 'bbommarito/vim-slim'
+"Bundle 'bbommarito/vim-slim'
 Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'vim-scripts/harlequin'
 "Bundle 'flazz/vim-colorschemes'
@@ -34,12 +34,12 @@ Bundle 'evanmiller/nginx-vim-syntax'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'kien/ctrlp.vim'
-Bundle 'mileszs/ack.vim'
 Bundle 'chrisbra/SudoEdit.vim'
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'tpope/vim-surround'
 Bundle 'guns/vim-clojure-static'
 Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'epmatsw/ag.vim'
 
 filetype plugin indent on
 " End vundle config
@@ -58,6 +58,7 @@ set autoindent
 set hlsearch
 set autoread
 set t_Co=256
+set clipboard=unnamedplus
 
 set background=dark
 colorscheme harlequin "Tomorrow-Night-Bright
