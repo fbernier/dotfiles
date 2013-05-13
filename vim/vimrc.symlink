@@ -11,7 +11,8 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 "Bundle 'bbommarito/vim-slim'
-Bundle 'chriskempson/vim-tomorrow-theme'
+"Bundle 'chriskempson/vim-tomorrow-theme'
+Bundle 'chriskempson/base16-vim'
 Bundle 'vim-scripts/harlequin'
 "Bundle 'flazz/vim-colorschemes'
 Bundle 'vim-ruby/vim-ruby'
@@ -29,7 +30,7 @@ Bundle 'ap/vim-css-color'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'majutsushi/tagbar'
 Bundle 'scrooloose/syntastic'
-Bundle 'ervandew/supertab'
+"Bundle 'ervandew/supertab'
 Bundle 'evanmiller/nginx-vim-syntax'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
@@ -40,6 +41,9 @@ Bundle 'tpope/vim-surround'
 Bundle 'guns/vim-clojure-static'
 Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'epmatsw/ag.vim'
+Bundle 'natw/keyboard_cat.vim'
+Bundle 'Valloric/YouCompleteMe'
+"Bundle 'Valloric/YouCompleteMe'
 
 filetype plugin indent on
 " End vundle config
@@ -53,7 +57,7 @@ set history=1000
 set encoding=utf-8
 set ignorecase
 set smartcase
-set scrolloff=5
+set scrolloff=10
 set autoindent
 set hlsearch
 set autoread
@@ -61,10 +65,13 @@ set t_Co=256
 set clipboard=unnamedplus
 
 set background=dark
-colorscheme harlequin "Tomorrow-Night-Bright
+colorscheme base16-default
 let mapleader = ","
 nnoremap ; :
 let g:Powerline_symbols = 'fancy'
+
+let g:gitgutter_on_bufenter = 0
+let g:gitgutter_all_on_focusgained = 0
 
 " Close a buffer but not the split window
 nmap ,d :b#<bar>bd#<CR>
