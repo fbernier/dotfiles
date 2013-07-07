@@ -13,12 +13,12 @@ Bundle 'gmarik/vundle'
 "Bundle 'bbommarito/vim-slim'
 "Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'chriskempson/base16-vim'
-Bundle 'vim-scripts/harlequin'
+"Bundle 'vim-scripts/harlequin'
 "Bundle 'flazz/vim-colorschemes'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rake'
 Bundle 'tpope/vim-rails'
-Bundle 'Lokaltog/vim-powerline'
+Bundle 'bling/vim-airline'
 Bundle 'tpope/vim-markdown'
 Bundle 'groenewege/vim-less'
 Bundle 'pangloss/vim-javascript'
@@ -43,7 +43,8 @@ Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'epmatsw/ag.vim'
 Bundle 'natw/keyboard_cat.vim'
 Bundle 'Valloric/YouCompleteMe'
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'tpope/vim-fireplace'
 
 filetype plugin indent on
 " End vundle config
@@ -65,16 +66,22 @@ set t_Co=256
 set clipboard=unnamedplus
 
 set background=dark
-colorscheme base16-default
+if has('gui_running')
+  colorscheme base16-default
+else
+  colorscheme slate
+endif
 let mapleader = ","
 nnoremap ; :
-let g:Powerline_symbols = 'fancy'
 
 let g:gitgutter_on_bufenter = 0
 let g:gitgutter_all_on_focusgained = 0
 
 " Close a buffer but not the split window
 nmap ,d :b#<bar>bd#<CR>
+
+" Tagbar mapping
+nmap ,t :TagbarToggle<CR>
 
 " Indents a whole buffer
 nmap <Leader>f gg=G
@@ -110,6 +117,7 @@ set laststatus=2
 
 " who types jj anyway? 
 imap jj <Esc>
+map mm :Eval<CR>
 
 " NERDTree configuration
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
