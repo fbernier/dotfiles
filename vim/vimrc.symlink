@@ -45,6 +45,7 @@ Bundle 'natw/keyboard_cat.vim'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'tpope/vim-fireplace'
+Bundle 'ngmy/vim-rubocop'
 
 filetype plugin indent on
 " End vundle config
@@ -55,7 +56,7 @@ set hidden
 set number
 set ruler
 set history=1000
-set encoding=utf-8
+"set encoding=utf-8
 set ignorecase
 set smartcase
 set scrolloff=10
@@ -64,6 +65,9 @@ set hlsearch
 set autoread
 set t_Co=256
 set clipboard=unnamedplus
+"
+" Disable autopairs for clojure and ()
+au Filetype clojure let b:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 
 set background=dark
 if has('gui_running')
@@ -90,7 +94,7 @@ if has('gui_running')
   if has('gui_macvim')
     set guifont=Inconsolata:h15
   elseif has('gui_gtk2')
-    set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 12
+    set guifont=Droid\ Sans\ Mono\ 12
   endif
 
   " Don't show scroll bars in the GUI
