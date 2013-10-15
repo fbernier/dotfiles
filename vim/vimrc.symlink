@@ -45,7 +45,6 @@ Bundle 'natw/keyboard_cat.vim'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'tpope/vim-fireplace'
-Bundle 'ngmy/vim-rubocop'
 
 filetype plugin indent on
 " End vundle config

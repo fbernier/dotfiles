@@ -12,7 +12,6 @@ bind-key -t vi-copy 'y' copy-selection
 
 set-window-option -g mode-keys vi
 set -g default-command zsh
-#set -g default-shell zsh
 set -g history-limit 15000
 set -g base-index 1
 set -g default-terminal "screen-256color"
