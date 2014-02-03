@@ -44,7 +44,9 @@ Bundle 'epmatsw/ag.vim'
 Bundle 'natw/keyboard_cat.vim'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'jnwhiteh/vim-golang'
+Bundle 'wting/rust.vim'
 Bundle 'tpope/vim-fireplace'
+Bundle 'chmllr/vim-colorscheme-elrodeo'
 
 filetype plugin indent on
 " End vundle config
@@ -64,13 +66,14 @@ set hlsearch
 set autoread
 set t_Co=256
 set clipboard=unnamedplus
+set synmaxcol=256
 "
 " Disable autopairs for clojure and ()
 au Filetype clojure let b:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 
 set background=dark
 if has('gui_running')
-  colorscheme base16-default
+  colorscheme base16-monokai
 else
   colorscheme slate
 endif
@@ -148,7 +151,7 @@ set backspace=indent,eol,start
 
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
+let g:syntastic_quiet_messages = {'level': 'warnings'}
 
 " ack ouput
 let g:ackprg="ack -H --nocolor --nogroup --column"

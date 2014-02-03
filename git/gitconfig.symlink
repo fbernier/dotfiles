@@ -42,3 +42,4 @@
 [core]
 	editor = gvim --nofork
 	excludesfile = ~/.gitignore
+  commentchar = $
