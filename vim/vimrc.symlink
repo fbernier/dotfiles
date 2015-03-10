@@ -1,154 +1,160 @@
-" This is the vimrc of Francois Bernier
+let mapleader = "\<Space>"
+let maplocalleader = ","
 
-set nocompatible " This must be first, because it changes other options as a side effect.
+source ~/.plugrc
 
-" Begin vundle config
-filetype off
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-
-"Bundle 'bbommarito/vim-slim'
-"Bundle 'chriskempson/vim-tomorrow-theme'
-Bundle 'chriskempson/base16-vim'
-"Bundle 'vim-scripts/harlequin'
-"Bundle 'flazz/vim-colorschemes'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-rake'
-Bundle 'tpope/vim-rails'
-Bundle 'bling/vim-airline'
-Bundle 'tpope/vim-markdown'
-Bundle 'groenewege/vim-less'
-Bundle 'pangloss/vim-javascript'
-Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-endwise'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'ap/vim-css-color'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'majutsushi/tagbar'
-Bundle 'scrooloose/syntastic'
-"Bundle 'ervandew/supertab'
-Bundle 'evanmiller/nginx-vim-syntax'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'kien/ctrlp.vim'
-Bundle 'chrisbra/SudoEdit.vim'
-Bundle 'jiangmiao/auto-pairs'
-Bundle 'tpope/vim-surround'
-Bundle 'guns/vim-clojure-static'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'epmatsw/ag.vim'
-Bundle 'natw/keyboard_cat.vim'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'fatih/vim-go'
-Bundle 'wting/rust.vim'
-Bundle 'tpope/vim-fireplace'
-Bundle 'chmllr/vim-colorscheme-elrodeo'
-Bundle 'lukerandall/haskellmode-vim'
-
-filetype plugin indent on
-" End vundle config
-
-syntax on
-
-set hidden
-set number
-set ruler
-set history=1000
-"set encoding=utf-8
-set ignorecase
-set smartcase
-set scrolloff=10
-set autoindent
-set hlsearch
-set autoread
-set clipboard=unnamedplus
-set synmaxcol=256
-"
-" Disable autopairs for clojure and ()
-au Filetype clojure let b:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
-
-set t_Co=256
 set background=dark
+" Access colors present in 256 colorspace
 let base16colorspace=256
+set number
+
+call plug#begin()
+
+Plug 'tpope/vim-sensible'
+Plug 'kien/ctrlp.vim'
+Plug 'chriskempson/base16-vim'
+
+" Really nice prompt
+Plug 'bling/vim-airline'
+
+Plug 'scrooloose/syntastic'
+Plug 'kien/rainbow_parentheses.vim'
+
+" Press v over and over again to expand selection
+Plug 'terryma/vim-expand-region'
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+
+" Awesome autocompletion
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+
+" Lightning fast :Ag searcher
+Plug 'rking/ag.vim'
+
+" Ruby extensions
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'tpope/vim-rails', { 'for': 'ruby' }
+Plug 'tpope/vim-rake', { 'for': 'ruby' }
+Plug 'kana/vim-textobj-user', { 'for': 'ruby' }
+" var, vir
+Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
+
+" Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
+" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-sleuth'
+
+Plug 'jiangmiao/auto-pairs'
+
+" Allow to :Rename files
+Plug 'danro/rename.vim'
+
+" Automatically find root project directory
+Plug 'airblade/vim-rooter'
+
+" Expand / wrap hashes etc.
+Plug 'AndrewRadev/splitjoin.vim'
+nmap sj :SplitjoinSplit<cr>
+nmap sk :SplitjoinJoin<cr>
+
+
+Plug 'wting/rust.vim', { 'for': 'rust' }
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'ap/vim-css-color', { 'for': ['css', 'scss', 'less'] }
+
+Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
+au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
+
+" Navitate freely between tmux and vim
+Plug 'christoomey/vim-tmux-navigator'
+
+" Run ruby " Nice column aligning with <Enter>
+Plug 'junegunn/vim-easy-align'
+vmap <Enter> <Plug>(EasyAlign)
+nmap <Leader>a <Plug>(EasyAlign)
+
+" For more reliable indenting and performance
+" set foldmethod=indent
+" set fillchars="fold: "
+
+" Nice file browsing with -
+Plug 'eiginn/netrw'
+let g:netrw_altfile = 1
+Plug 'tpope/vim-vinegar'
+
+" Set nice 80-characters limiter
+" execute "set colorcolumn=" . join(range(81,335), ',')
+" hi ColorColumn guibg=#262626 ctermbg=235
+
+" Better search tools
+Plug 'haya14busa/incsearch.vim'
+Plug 'vim-scripts/gitignore'
+
+call plug#end()
+
 colorscheme base16-monokai
 
-let mapleader = ","
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+nmap <Leader><Leader> V
+nmap <Leader>b :make<CR>
+nnoremap <Leader><Tab> <C-^>
+nnoremap <Leader>y :!annotate expand('%:p') " what?
+
+nnoremap <Leader>o :CtrlP<CR>
+nnoremap <Leader>i :CtrlPBuffer<CR>
+
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
+
 nnoremap ; :
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>s :wq<CR>
+nnoremap <Leader>v V
+nnoremap <Leader>g gf
 
-let g:gitgutter_on_bufenter = 0
-let g:gitgutter_all_on_focusgained = 0
+" Remove trailing whitespaces
+nnoremap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>:w<CR>
 
-" Close a buffer but not the split window
-nmap ,d :b#<bar>bd#<CR>
+nnoremap H 0
+nnoremap L $
 
-" Tagbar mapping
-nmap ,t :TagbarToggle<CR>
+" incsearch
+map /  <Plug>(incsearch-forward)
 
-" Indents a whole buffer
-nmap <Leader>f gg=G
-
-if has('gui_running')
-  if has('gui_macvim')
-    set guifont=Inconsolata:h15
-  elseif has('gui_gtk2')
-    set guifont=Droid\ Sans\ Mono\ 12
-  endif
-
-  " Don't show scroll bars in the GUI
-  set guioptions-=L
-  set guioptions-=r
-  set guioptions-=T  "remove toolbar
-endif
-
-" Whitespace stuff
-set nowrap
-set tabstop=2
+" tabs
+set expandtab
 set shiftwidth=2
 set softtabstop=2
-set expandtab
+
+set scrolloff=8
+
+" tab to indent
+vnoremap < <gv
+vnoremap > >gv|
+vnoremap <Tab> >gv|
+vnoremap <S-Tab> <gv
+
+" show unwanted characters
 set list listchars=tab:\ \ ,trail:·
 
-" Tab completion
-set wildmenu
-set wildmode=list:longest,list:full
-set wildignore+=*/.svn/*,*/.hg/*,*/.git/*,*.o,*.obj,*.rbc,*.class,vendor/gems/*,*.DS_Store,*.rvmrc,*.gitignore,*.jpg,*.bmp,*.gif,*.png,*.jpeg,*.sw?,*.pyc
+" Enable Spell Checking for markdown files
+augroup markdown_spell
+  autocmd!
+  autocmd BufRead,BufNewFile *.md setlocal spell
+  autocmd BufRead,BufNewFile *.markdown setlocal spell
+augroup END
 
-" Status bar
-set laststatus=2
-
-" who types jj anyway?
-imap jj <Esc>
-map mm :Eval<CR>
-
-" NERDTree configuration
-let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
-map <Leader>n :NERDTreeToggle<CR>
-
-" Remember last location in file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal g'\"" | endif
-  autocmd VimEnter * set vb t_vb=
-endif
-
-" add json syntax highlighting
-au BufNewFile,BufRead *.json set ft=javascript
-
-" make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
-au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
-
-" Rainbow!
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-" Enable syntastic syntax checking
+" syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -158,46 +164,13 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-" ack ouput
-let g:ackprg="ack -H --nocolor --nogroup --column"
-
-" Directories for swp files
-set backupdir=~/.vim/backup
-set directory=~/.vim/backup
-
-" Show (partial) command in the status line
-set showcmd
-
-" Configure browser for haskell_doc.vim
-let g:haddock_browser = "open"
-let g:haddock_browser_callformat = "%s %s"
-
-" tab to indent
-vnoremap < <gv
-vnoremap > >gv|
-vnoremap <Tab> >gv|
-vnoremap <S-Tab> <gv
-
-map <leader>/ <plug>NERDCommenterToggle<CR>
-imap <leader>/ <Esc><plug>NERDCommenterToggle<CR>i
-
-" Unbind arrows {{{
-nnoremap <Up> <Esc>
-vnoremap <Up> <NOP>
-inoremap <Up> <NOP>
-nnoremap <Down> <Esc>
-vnoremap <Down> <NOP>
-inoremap <Down> <NOP>
-nnoremap <Left> <Esc>
-vnoremap <Left> <NOP>
-inoremap <Left> <NOP>
-nnoremap <Right> <Esc>
-vnoremap <Right> <NOP>
-inoremap <Right> <NOP>
-" }}}
-
-" tab next/previous and move tabs
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right> :tabnext<CR>
-nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
-nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
+" use ag for ctrlp
+let g:ctrlp_use_caching = 0
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+else
+  let g:ctrlp_user_command = ['.git',
+    \ 'cd %s && git ls-files . -co --exclude-standard',
+    \ 'find %s -type f' ]
+endif
