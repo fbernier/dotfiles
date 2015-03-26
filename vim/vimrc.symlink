@@ -12,6 +12,7 @@ call plug#begin()
 
 Plug 'tpope/vim-sensible'
 Plug 'kien/ctrlp.vim'
+Plug 'd11wtq/ctrlp_bdelete.vim'
 Plug 'chriskempson/base16-vim'
 
 " Really nice prompt
@@ -19,6 +20,9 @@ Plug 'bling/vim-airline'
 
 Plug 'scrooloose/syntastic'
 Plug 'kien/rainbow_parentheses.vim'
+
+" git
+Plug 'tpope/vim-fugitive'
 
 " Press v over and over again to expand selection
 Plug 'terryma/vim-expand-region'
@@ -138,6 +142,9 @@ set softtabstop=2
 
 set scrolloff=8
 
+set autoread
+set hidden
+
 " tab to indent
 vnoremap < <gv
 vnoremap > >gv|
@@ -174,3 +181,5 @@ else
     \ 'cd %s && git ls-files . -co --exclude-standard',
     \ 'find %s -type f' ]
 endif
+
+call ctrlp_bdelete#init()
