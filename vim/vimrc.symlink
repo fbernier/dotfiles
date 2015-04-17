@@ -83,10 +83,10 @@ nmap <Leader>a <Plug>(EasyAlign)
 " set foldmethod=indent
 " set fillchars="fold: "
 
-" Nice file browsing with -
-Plug 'eiginn/netrw'
-let g:netrw_altfile = 1
-Plug 'tpope/vim-vinegar'
+" Nice file browsing
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimfiler.vim'
+let g:vimfiler_as_default_explorer = 1
 
 " Set nice 80-characters limiter
 " execute "set colorcolumn=" . join(range(81,335), ',')
@@ -134,6 +134,9 @@ nnoremap L $
 
 " incsearch
 map /  <Plug>(incsearch-forward)
+
+set backupdir=~/.vim/backup
+set directory=~/.vim/backup
 
 " tabs
 set expandtab
