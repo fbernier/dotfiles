@@ -87,6 +87,7 @@ nmap <Leader>a <Plug>(EasyAlign)
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
 let g:vimfiler_as_default_explorer = 1
+nmap <Leader>- :VimFiler<cr>
 
 " Set nice 80-characters limiter
 " execute "set colorcolumn=" . join(range(81,335), ',')
@@ -95,6 +96,8 @@ let g:vimfiler_as_default_explorer = 1
 " Better search tools
 Plug 'haya14busa/incsearch.vim'
 Plug 'vim-scripts/gitignore'
+
+Plug 'gioele/vim-autoswap'
 
 call plug#end()
 
@@ -147,6 +150,8 @@ set scrolloff=8
 
 set autoread
 set hidden
+
+set clipboard=unnamedplus
 
 " tab to indent
 vnoremap < <gv
