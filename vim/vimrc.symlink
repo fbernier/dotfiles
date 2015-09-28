@@ -1,7 +1,7 @@
 let mapleader = "\<Space>"
 let maplocalleader = ","
 
-source ~/.plugrc
+"source ~/.plugrc
 
 set background=dark
 " Access colors present in 256 colorspace
@@ -17,6 +17,8 @@ Plug 'chriskempson/base16-vim'
 
 " Really nice prompt
 Plug 'bling/vim-airline'
+" Set a powerline patched font before enabling this
+let g:airline_powerline_fonts = 1
 
 Plug 'scrooloose/syntastic'
 Plug 'kien/rainbow_parentheses.vim'
@@ -66,6 +68,7 @@ nmap sk :SplitjoinJoin<cr>
 Plug 'wting/rust.vim', { 'for': 'rust' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'ap/vim-css-color', { 'for': ['css', 'scss', 'less'] }
+Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
 au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
@@ -73,6 +76,7 @@ au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 
 " Navitate freely between tmux and vim
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'tmux-plugins/vim-tmux-focus-events'
 
 " Run ruby " Nice column aligning with <Enter>
 Plug 'junegunn/vim-easy-align'

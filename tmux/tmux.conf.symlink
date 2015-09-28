@@ -1,11 +1,9 @@
-set-option -g prefix C-w
-bind | split-window -h
-bind - split-window -v
-
-#bind h select-pane -L
-#bind j select-pane -D
-#bind k select-pane -U
-#bind l select-pane -R
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-copycat'
+set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @plugin 'tmux-plugins/tmux-pain-control'
 
 # Smart pane switching with awareness of vim splits
 is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
@@ -15,61 +13,21 @@ bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
 bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
 bind -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 
-bind-key -t vi-copy 'v' begin-selection
-bind-key -t vi-copy 'y' copy-selection
+unbind C-b; set -g prefix C-a
+bind a send-prefix
 
-set-window-option -g mode-keys vi
-set -g default-command zsh
-set -g history-limit 15000
 set -g base-index 1
-set -g default-terminal "screen-256color"
-set -sg escape-time 0
-set -g status-utf8 on
-bind r source-file ~/.tmux.conf \; display "Reloading config..."
-
-bind C-p run "xclip -o | tmux load-buffer - ; tmux paste-buffer"
-bind C-y run "tmux save-buffer - | xclip -i -selection clipboard"
-
-bind Escape copy-mode
+set-option -g renumber-windows on
 
 # easily toggle synchronization (mnemonic: e is for echo)
 bind e setw synchronize-panes on
 bind E setw synchronize-panes off
+#
+# STATUS BAR
+set -g status-bg black
+set -g status-fg white
+set -g window-status-current-fg 'yellow'
+set -g status-left '#[fg=green]#{session_name} #[fg=white]|'
 
-# switch " over to selecting windows
-unbind '"'
-bind-key '"' choose-window
-
-# use ' to switch between sessions
-bind-key "'" choose-session
-
-set-window-option -g automatic-rename off
-
-# extract pane to new window and put it back
-unbind z
-bind z \
-  new-window -d -n tmux-zoom \;\
-  swap-pane -s tmux-zoom.0 \;\
-  select-window -t tmux-zoom
-
-unbind Z
-bind Z \
-  last-window \;\
-  swap-pane -s tmux-zoom.0 \;\
-  kill-window -t tmux-zoom
-
-#### COLOUR
-
-# status bar
-set -g status-utf8 on
-set -g status-fg colour8
-set -g status-bg colour234
-# current session
-set -g status-left ' #S '
-set -g status-left-length 15
-set -g status-left-fg colour229
-set -g status-left-bg colour166
-# window list
-set -g window-status-format "#[fg=colour8] #I #[fg=colour231]#W#[fg=colour166]#F "
-set -g window-status-current-format "#[fg=colour117,bg=colour31] #I #[fg=colour231]#W#[fg=colour234]#F "
-set -g window-status-separator ""
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
