@@ -11,17 +11,19 @@ set number
 call plug#begin()
 
 Plug 'tpope/vim-sensible'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'd11wtq/ctrlp_bdelete.vim'
 Plug 'chriskempson/base16-vim'
 
 " Really nice prompt
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " Set a powerline patched font before enabling this
 let g:airline_powerline_fonts = 1
 
 Plug 'scrooloose/syntastic'
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'tpope/vim-surround'
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -51,7 +53,8 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 " Plug 'tpope/vim-sleuth'
 
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
+Plug 'cohama/lexima.vim'
 
 " Allow to :Rename files
 Plug 'danro/rename.vim'
@@ -70,6 +73,7 @@ Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'ap/vim-css-color', { 'for': ['css', 'scss', 'less'] }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'cespare/vim-toml', { 'for': 'toml' }
+Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
 
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
 au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
