@@ -1,0 +1,17 @@
+fish_vi_mode
+set fish_greeting ""
+set fisher_home ~/repositories/fisherman
+set fisher_config ~/.config/fisherman
+source $fisher_home/config.fish
+export NVIM_TUI_ENABLE_CURSOR_SHAPE=true
+
+# CUSTOM:
+source /usr/local/share/chruby/chruby.fish
+#chruby 2.2.3
+#[[ -s "$HOME/.gvm/scripts/gvm" ]]; source "$HOME/.gvm/scripts/gvm"
+alias v="nvim"
+eval sh $HOME/.config/base16-shell/base16-monokai.dark.sh
+chruby 2.3.0
+export PATH=/usr/local/heroku/bin:$PATH
+export PATH=/usr/local/bin:$PATH
+set -U fish_user_paths /usr/local/bin /usr/local/heroku/bin $fish_user_paths
