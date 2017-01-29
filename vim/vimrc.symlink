@@ -4,8 +4,6 @@ let maplocalleader = ","
 "source ~/.plugrc
 
 set background=dark
-" Access colors present in 256 colorspace
-let base16colorspace=256
 set number
 
 call plug#begin()
@@ -20,9 +18,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Set a powerline patched font before enabling this
 let g:airline_powerline_fonts = 1
+"let g:neomake_open_list = 2
 
-Plug 'scrooloose/syntastic'
-Plug 'kien/rainbow_parentheses.vim'
+Plug 'neomake/neomake'
+autocmd! BufWritePost * Neomake
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 1
 Plug 'tpope/vim-surround'
 
 " git
@@ -34,7 +35,10 @@ vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
 " Awesome autocompletion
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+let g:deoplete#enable_at_startup = 1
 
 " Lightning fast :Ag searcher
 Plug 'rking/ag.vim'
@@ -44,6 +48,7 @@ Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'tpope/vim-rake', { 'for': 'ruby' }
 Plug 'kana/vim-textobj-user', { 'for': 'ruby' }
+Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
 " var, vir
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
 
@@ -96,7 +101,7 @@ nmap <Leader>a <Plug>(EasyAlign)
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
 let g:vimfiler_as_default_explorer = 1
-nmap <Leader>- :VimFiler<cr>
+nmap <Leader>- :VimFilerExplorer -force-hide<cr>
 
 " Set nice 80-characters limiter
 " execute "set colorcolumn=" . join(range(81,335), ',')
@@ -110,7 +115,11 @@ Plug 'gioele/vim-autoswap'
 
 call plug#end()
 
-colorscheme base16-monokai
+set termguicolors
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 
 vmap <Leader>y "+y
 vmap <Leader>d "+d
@@ -145,7 +154,7 @@ nnoremap H 0
 nnoremap L $
 
 " incsearch
-map /  <Plug>(incsearch-forward)
+" map /  <Plug>(incsearch-forward)
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
@@ -154,6 +163,9 @@ set directory=~/.vim/backup
 set expandtab
 set shiftwidth=2
 set softtabstop=2
+set tabstop=2
+set autoindent
+filetype plugin indent on
 
 set scrolloff=8
 
@@ -188,15 +200,21 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-" use ag for ctrlp
-let g:ctrlp_use_caching = 0
-if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-else
-  let g:ctrlp_user_command = ['.git',
-    \ 'cd %s && git ls-files . -co --exclude-standard',
-    \ 'find %s -type f' ]
+" use rg for ctrlp
+if executable('rg')
+  set grepprg=rg\ --color=never
+
+  nnoremap <silent> t :CtrlP<cr>
+
+  let g:ctrlp_match_window = 'bottom'
+  let g:ctrlp_switch_buffer = 0
+  let g:ctrlp_working_path_mode = 'ra'
+  let g:ctrlp_use_caching = 0
+  let g:ctrlp_user_command = 'rg --files %s'
+  "let g:ctrlp_user_command += ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 endif
+
+" set matchparen colors properly
+hi MatchParen guibg=#f8f8f2 guifg=#75715e
 
 call ctrlp_bdelete#init()

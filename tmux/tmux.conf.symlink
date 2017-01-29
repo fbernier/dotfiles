@@ -1,3 +1,5 @@
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
@@ -35,6 +37,10 @@ set -g status-bg black
 set -g status-fg white
 set -g window-status-current-fg 'yellow'
 set -g status-left '#[fg=green]#{session_name} #[fg=white]|'
+
+# swap window to left or right
+bind-key -r < swap-window -t -1
+bind-key -r > swap-window -t +1
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
