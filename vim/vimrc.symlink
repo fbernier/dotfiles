@@ -1,8 +1,6 @@
 let mapleader = "\<Space>"
 let maplocalleader = ","
 
-"source ~/.plugrc
-
 set background=dark
 set number
 
@@ -13,12 +11,11 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'd11wtq/ctrlp_bdelete.vim'
 Plug 'chriskempson/base16-vim'
 
-" Really nice prompt
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
 " Set a powerline patched font before enabling this
 let g:airline_powerline_fonts = 1
-"let g:neomake_open_list = 2
 
 Plug 'neomake/neomake'
 autocmd! BufWritePost * Neomake
@@ -26,7 +23,6 @@ Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
 Plug 'tpope/vim-surround'
 
-" git
 Plug 'tpope/vim-fugitive'
 
 " Press v over and over again to expand selection
@@ -34,7 +30,7 @@ Plug 'terryma/vim-expand-region'
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
-" Awesome autocompletion
+" autocompletion
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
@@ -52,13 +48,9 @@ Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
 " var, vir
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
 
-" Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
-" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-sleuth'
 
-" Plug 'jiangmiao/auto-pairs'
 Plug 'cohama/lexima.vim'
 
 " Allow to :Rename files
@@ -88,27 +80,15 @@ au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
-" Run ruby " Nice column aligning with <Enter>
 Plug 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 nmap <Leader>a <Plug>(EasyAlign)
 
-" For more reliable indenting and performance
-" set foldmethod=indent
-" set fillchars="fold: "
-
-" Nice file browsing
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimfiler.vim'
 let g:vimfiler_as_default_explorer = 1
 nmap <Leader>- :VimFilerExplorer -force-hide<cr>
 
-" Set nice 80-characters limiter
-" execute "set colorcolumn=" . join(range(81,335), ',')
-" hi ColorColumn guibg=#262626 ctermbg=235
-
-" Better search tools
-Plug 'haya14busa/incsearch.vim'
 Plug 'vim-scripts/gitignore'
 
 Plug 'gioele/vim-autoswap'
@@ -153,17 +133,12 @@ nnoremap <silent> <Leader><BS> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:n
 nnoremap H 0
 nnoremap L $
 
-" incsearch
-" map /  <Plug>(incsearch-forward)
-
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
 
 " tabs
-set expandtab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+set tabstop=4 expandtab shiftwidth=4 shiftround smartindent
+autocmd FileType sh,zsh,ruby setlocal shiftwidth=2
 set autoindent
 filetype plugin indent on
 
@@ -182,6 +157,8 @@ vnoremap <S-Tab> <gv
 
 " show unwanted characters
 set list listchars=tab:\ \ ,trail:·
+
+set inccommand=split
 
 " Enable Spell Checking for markdown files
 augroup markdown_spell
@@ -213,8 +190,5 @@ if executable('rg')
   let g:ctrlp_user_command = 'rg --files %s'
   "let g:ctrlp_user_command += ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 endif
-
-" set matchparen colors properly
-hi MatchParen guibg=#f8f8f2 guifg=#75715e
 
 call ctrlp_bdelete#init()
