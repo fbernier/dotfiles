@@ -6,7 +6,6 @@ set number
 
 call plug#begin()
 
-Plug 'tpope/vim-sensible'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'd11wtq/ctrlp_bdelete.vim'
 Plug 'chriskempson/base16-vim'
@@ -24,6 +23,13 @@ let g:rainbow_active = 1
 Plug 'tpope/vim-surround'
 
 Plug 'tpope/vim-fugitive'
+Plug 'KabbAmine/zeavim.vim', {'on': [
+			\	'Zeavim', 'Docset',
+			\	'<Plug>Zeavim',
+			\	'<Plug>ZVVisSelection',
+			\	'<Plug>ZVKeyDocset',
+			\	'<Plug>ZVMotion'
+			\ ]}
 
 " Press v over and over again to expand selection
 Plug 'terryma/vim-expand-region'
@@ -176,6 +182,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 
 " use rg for ctrlp
 if executable('rg')

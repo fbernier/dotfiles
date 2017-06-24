@@ -36,3 +36,5 @@
   editor = nvim
   excludesfile = /home/fbernier/.global_ignore
   commentchar = $
+[commit]
+	gpgsign = true

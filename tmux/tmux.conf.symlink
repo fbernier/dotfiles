@@ -22,6 +22,7 @@ bind a send-prefix
 
 set -g base-index 1
 set-option -g renumber-windows on
+set-option -g allow-rename off
 
 # easily toggle synchronization (mnemonic: e is for echo)
 bind e setw synchronize-panes on
@@ -29,8 +30,8 @@ bind E setw synchronize-panes off
 
 setw -g mode-keys vi
 set -g status-keys vi
-bind-key -t vi-edit Up   history-up
-bind-key -t vi-edit Down history-down
+bind-key -T edit-mode-vi Up send-keys -X history-up
+bind-key -T edit-mode-vi Down send-keys -X history-down
 
 #
 # STATUS BAR
