@@ -1,5 +1,5 @@
 [user]
-  name = Francois Bernier
+  name = François Bernier
   email = frankbernier@gmail.com
 [color]
   status = auto
@@ -37,4 +37,4 @@
   excludesfile = /home/fbernier/.global_ignore
   commentchar = $
 [commit]
-	gpgsign = true
+    #gpgsign = true

@@ -4,10 +4,9 @@ let maplocalleader = ","
 set background=dark
 set number
 
-call plug#begin()
+call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'd11wtq/ctrlp_bdelete.vim'
+Plug 'srstevenson/vim-picker'
 Plug 'chriskempson/base16-vim'
 
 Plug 'vim-airline/vim-airline'
@@ -16,8 +15,16 @@ Plug 'vim-airline/vim-airline-themes'
 " Set a powerline patched font before enabling this
 let g:airline_powerline_fonts = 1
 
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ }
+let g:LanguageClient_autoStart = 1
+
 Plug 'neomake/neomake'
-autocmd! BufWritePost * Neomake
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
 Plug 'tpope/vim-surround'
@@ -42,6 +49,8 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 let g:deoplete#enable_at_startup = 1
 
+Plug 'sebastianmarkow/deoplete-rust'
+
 " Lightning fast :Ag searcher
 Plug 'rking/ag.vim'
 
@@ -51,6 +60,7 @@ Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'tpope/vim-rake', { 'for': 'ruby' }
 Plug 'kana/vim-textobj-user', { 'for': 'ruby' }
 Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
+Plug 'vim-erlang/vim-erlang-compiler', { 'for': 'erlang' }
 " var, vir
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
 
@@ -77,6 +87,7 @@ Plug 'ap/vim-css-color', { 'for': ['css', 'scss', 'less'] }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 
 Plug 'bitc/vim-hdevtools', { 'for': 'haskell' }
 au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
@@ -117,9 +128,6 @@ nmap <Leader><Leader> V
 nmap <Leader>b :make<CR>
 nnoremap <Leader><Tab> <C-^>
 nnoremap <Leader>y :!annotate expand('%:p') " what?
-
-nnoremap <Leader>o :CtrlP<CR>
-nnoremap <Leader>i :CtrlPBuffer<CR>
 
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
@@ -183,20 +191,19 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+" set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 
-" use rg for ctrlp
-if executable('rg')
-  set grepprg=rg\ --color=never
+let g:picker_find_executable = 'rg'
+let g:picker_find_flags = '--color never --files'
+nmap <unique> <leader>o <Plug>PickerEdit
+nnoremap <leader>i :PickerBuffer<CR>
 
-  nnoremap <silent> t :CtrlP<cr>
+function! MyOnBattery()
+  return readfile('/sys/class/power_supply/AC/online') == ['0']
+endfunction
 
-  let g:ctrlp_match_window = 'bottom'
-  let g:ctrlp_switch_buffer = 0
-  let g:ctrlp_working_path_mode = 'ra'
-  let g:ctrlp_use_caching = 0
-  let g:ctrlp_user_command = 'rg --files %s'
-  "let g:ctrlp_user_command += ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+if MyOnBattery()
+  call neomake#configure#automake('w')
+else
+  call neomake#configure#automake('nw', 1000)
 endif
-
-call ctrlp_bdelete#init()
