@@ -1,0 +1,132 @@
+let mapleader = "\<Space>"
+let maplocalleader = ","
+
+set background=dark
+set number
+
+set wildmode=longest,list,full
+set wildmenu
+
+call plug#begin('~/.local/share/nvim/plugged')
+
+" Navitate freely between tmux and vim
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'nvim-lua/completion-nvim'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+Plug 'chriskempson/base16-vim'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'p00f/nvim-ts-rainbow'
+
+call plug#end()
+
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
+
+lua <<EOF
+
+-- nvim_lsp object
+local nvim_lsp = require'lspconfig'
+
+-- function to attach completion when setting up lsp
+local on_attach = function(client)
+    require'completion'.on_attach(client)
+end
+
+-- Enable rust_analyzer
+nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
+
+-- Enable diagnostics
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = true,
+    signs = true,
+    update_in_insert = true,
+  }
+)
+
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true
+  },
+  rainbow = {
+    enable = true
+  }
+}
+EOF
+
+" Set updatetime for CursorHold
+" 300ms of no cursor movement to trigger CursorHold
+set updatetime=300
+" Show diagnostic popup on cursor hold
+autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+
+" Goto previous/next diagnostic warning/error
+nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+
+nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+
+set signcolumn=yes
+
+" Enable type inlay hints
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+\ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" use <Tab> as trigger keys
+imap <Tab> <Plug>(completion_smart_tab)
+imap <S-Tab> <Plug>(completion_smart_s_tab)
+
+let g:nvim_tree_quit_on_open = 1 
+nnoremap ; : 
+
+luafile ~/.local/share/nvim/plugged/galaxyline.nvim/example/eviline.lua
+
+set termguicolors
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+" Telescope (fuzzy finder)
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+nnoremap <leader>- :NvimTreeToggle<CR>
+nnoremap <leader>tt :NvimTreeToggle<CR>
+nnoremap <leader>tr :NvimTreeRefresh<CR>
+nnoremap <leader>tn :NvimTreeFindFile<CR>
+
+set backupdir=~/.vim/backup 
+set directory=~/.vim/backup 
+
+syntax enable
+filetype plugin indent on
+set clipboard=unnamed,unnamedplus
+set scrolloff=8
+set smartindent
+set expandtab
+set tabstop=4 softtabstop=4
+set cmdheight=2
+" show unwanted characters
+set list listchars=tab:\ \ ,trail:·
+set inccommand=split
