@@ -4,6 +4,9 @@ let maplocalleader = ","
 set background=dark
 set number
 
+set wildmode=longest,list,full
+set wildmenu
+
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'srstevenson/vim-picker'
@@ -15,14 +18,16 @@ Plug 'vim-airline/vim-airline-themes'
 " Set a powerline patched font before enabling this
 let g:airline_powerline_fonts = 1
 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ }
-let g:LanguageClient_autoStart = 1
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dense-analysis/ale'
+
+"let g:LanguageClient_serverCommands = {
+"    "\ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+"    \ 'rust': ['~/.cargo/bin/ra_lsp_server'],
+"    \ 'c': ['/usr/bin/ccls'],
+"    \ }
+"let g:LanguageClient_autoStart = 1
+"nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 Plug 'neomake/neomake'
 Plug 'luochen1990/rainbow'
@@ -43,14 +48,6 @@ Plug 'terryma/vim-expand-region'
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
-" autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" deoplete tab-complete
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-let g:deoplete#enable_at_startup = 1
-
-Plug 'sebastianmarkow/deoplete-rust'
-
 " Lightning fast :Ag searcher
 Plug 'rking/ag.vim'
 
@@ -67,7 +64,7 @@ Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 
-Plug 'cohama/lexima.vim'
+"Plug 'cohama/lexima.vim'
 
 " Allow to :Rename files
 Plug 'danro/rename.vim'
@@ -193,13 +190,14 @@ let g:syntastic_check_on_wq = 0
 
 " set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 
-let g:picker_find_executable = 'rg'
-let g:picker_find_flags = '--color never --files'
-nmap <unique> <leader>o <Plug>PickerEdit
-nnoremap <leader>i :PickerBuffer<CR>
+let g:picker_custom_find_executable = 'rg'
+let g:picker_custom_find_flags = '--color never --files'
+nmap <unique> <leader>o <Plug>(PickerEdit)
+nmap <unique> <leader>i <Plug>(PickerBuffer)
+"nnoremap <leader>i :PickerBuffer<CR>
 
 function! MyOnBattery()
-  return readfile('/sys/class/power_supply/AC/online') == ['0']
+  return readfile('/sys/class/power_supply/ADP1/online') == ['0']
 endfunction
 
 if MyOnBattery()
@@ -207,3 +205,30 @@ if MyOnBattery()
 else
   call neomake#configure#automake('nw', 1000)
 endif
+
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MULTIPURPOSE TAB KEY
+" Indent if we're at the beginning of a line. Else, do completion.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"function! InsertTabWrapper()
+"    let col = col('.') - 1
+"    if !col || getline('.')[col - 1] !~ '\k'
+"        return "\<tab>"
+"    else
+"        return "\<c-p>"
+"    endif
+"endfunction
+"inoremap <expr> <tab> InsertTabWrapper()
+"inoremap <s-tab> <c-n>

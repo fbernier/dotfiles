@@ -38,3 +38,6 @@
   commentchar = $
 [commit]
     #gpgsign = true
+[rerere]
+	enabled = true
+	autoupdate = true
