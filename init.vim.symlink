@@ -1,18 +1,11 @@
 let mapleader = "\<Space>"
 let maplocalleader = ","
 
-set background=dark
-set number
-
-set wildmode=longest,list,full
-set wildmenu
-
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Navitate freely between tmux and vim
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
@@ -33,11 +26,50 @@ Plug 'p00f/nvim-ts-rainbow'
 
 call plug#end()
 
+set termguicolors
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+set backupdir=~/.vim/backup 
+set directory=~/.vim/backup 
+
+syntax enable
+filetype plugin indent on
+set clipboard=unnamed,unnamedplus
+set scrolloff=8
+set smartindent
+set expandtab
+set tabstop=4 softtabstop=4
+set cmdheight=2
+" show unwanted characters
+set list listchars=tab:\ \ ,trail:·
+set inccommand=split
+
 set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 
-lua <<EOF
+set background=dark
+set number
+set wildmode=longest,list,full
+set wildmenu
 
+" Errors in Red
+hi LspDiagnosticsVirtualTextError guifg=Red ctermfg=Red
+" Warnings in Yellow
+hi LspDiagnosticsVirtualTextWarning guifg=Yellow ctermfg=Yellow
+" Info and Hints in White
+hi LspDiagnosticsVirtualTextInformation guifg=White ctermfg=White
+hi LspDiagnosticsVirtualTextHint guifg=White ctermfg=White
+
+" Underline the offending code
+hi LspDiagnosticsUnderlineError guifg=NONE ctermfg=NONE cterm=underline gui=underline
+hi LspDiagnosticsUnderlineWarning guifg=NONE ctermfg=NONE cterm=underline gui=underline
+hi LspDiagnosticsUnderlineInformation guifg=NONE ctermfg=NONE cterm=underline gui=underline
+hi LspDiagnosticsUnderlineHint guifg=NONE ctermfg=NONE cterm=underline gui=underline
+
+lua <<EOF
 -- nvim_lsp object
 local nvim_lsp = require'lspconfig'
 
@@ -52,11 +84,20 @@ nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
+    underline = true,
+    virtual_text = {
+        spacing = 2,
+        severity_limit = "Warning",
+    },
     signs = true,
     update_in_insert = true,
   }
 )
+
+vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
+vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
+vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
+vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
 
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -80,7 +121,7 @@ nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
 
-set signcolumn=yes
+"set signcolumn=yes
 
 " Enable type inlay hints
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
@@ -95,15 +136,9 @@ imap <Tab> <Plug>(completion_smart_tab)
 imap <S-Tab> <Plug>(completion_smart_s_tab)
 
 let g:nvim_tree_quit_on_open = 1 
-nnoremap ; : 
+nnoremap ; :
 
 luafile ~/.local/share/nvim/plugged/galaxyline.nvim/example/eviline.lua
-
-set termguicolors
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
 
 " Telescope (fuzzy finder)
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -116,17 +151,10 @@ nnoremap <leader>tt :NvimTreeToggle<CR>
 nnoremap <leader>tr :NvimTreeRefresh<CR>
 nnoremap <leader>tn :NvimTreeFindFile<CR>
 
-set backupdir=~/.vim/backup 
-set directory=~/.vim/backup 
+" tab to indent
+vnoremap < <gv
+vnoremap > >gv|
+vnoremap <Tab> >gv|
+vnoremap <S-Tab> <gv
 
-syntax enable
-filetype plugin indent on
-set clipboard=unnamed,unnamedplus
-set scrolloff=8
-set smartindent
-set expandtab
-set tabstop=4 softtabstop=4
-set cmdheight=2
-" show unwanted characters
-set list listchars=tab:\ \ ,trail:·
-set inccommand=split
+nnoremap <Leader><Tab> <C-^>
