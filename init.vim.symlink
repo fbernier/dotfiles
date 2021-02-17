@@ -55,6 +55,9 @@ set number
 set wildmode=longest,list,full
 set wildmenu
 
+set autoread
+set hidden
+
 " Errors in Red
 hi LspDiagnosticsVirtualTextError guifg=Red ctermfg=Red
 " Warnings in Yellow
@@ -112,8 +115,14 @@ EOF
 " Set updatetime for CursorHold
 " 300ms of no cursor movement to trigger CursorHold
 set updatetime=300
-" Show diagnostic popup on cursor hold
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+augroup lsp
+    autocmd!
+    " Show diagnostic popup on cursor hold
+    autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+    " Enable type inlay hints
+    autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+    \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+augroup end
 
 " Goto previous/next diagnostic warning/error
 nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
@@ -123,9 +132,6 @@ nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
 
 "set signcolumn=yes
 
-" Enable type inlay hints
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-\ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
