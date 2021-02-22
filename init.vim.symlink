@@ -41,7 +41,7 @@ set clipboard=unnamed,unnamedplus
 set scrolloff=8
 set smartindent
 set expandtab
-set tabstop=4 softtabstop=4
+set tabstop=4 expandtab shiftwidth=4 shiftround smartindent
 set cmdheight=2
 " show unwanted characters
 set list listchars=tab:\ \ ,trail:·
