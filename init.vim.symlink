@@ -81,6 +81,33 @@ local on_attach = function(client)
     require'completion'.on_attach(client)
 end
 
+-- Erlang LS
+local configs = require 'lspconfig/configs'
+local util = require 'lspconfig/util'
+
+local server_name = "erlangls"
+
+configs[server_name] = {
+  default_config =  {
+    cmd = {"erlang_ls", "--transport", "stdio"};
+    filetypes = {"erlang"};
+    root_dir = util.root_pattern("rebar.config");
+  };
+  -- on_attach = function(client, bufnr) end;
+  docs = {
+    description = [[
+https://github.com/erlang-ls/erlang_ls
+]];
+    default_config = {
+      root_dir = [[root_pattern("rebar.config")]];
+    };
+  };
+};
+
+configs.erlangls.setup{}
+
+-- enable ccls
+nvim_lsp.ccls.setup{}
 -- Enable rust_analyzer
 nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
 
