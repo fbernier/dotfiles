@@ -4,12 +4,11 @@ let maplocalleader = ","
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Navitate freely between tmux and vim
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'tmux-plugins/vim-tmux-focus-events'
+"Plug 'christoomey/vim-tmux-navigator'
+"Plug 'tmux-plugins/vim-tmux-focus-events'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
-Plug 'nvim-lua/completion-nvim'
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -18,6 +17,8 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'chriskempson/base16-vim'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/nvim-compe'
 
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
@@ -41,13 +42,13 @@ set clipboard=unnamed,unnamedplus
 set scrolloff=8
 set smartindent
 set expandtab
-set tabstop=4 expandtab shiftwidth=4 shiftround smartindent
+set tabstop=4 expandtab shiftwidth=4 shiftround
 set cmdheight=2
 " show unwanted characters
 set list listchars=tab:\ \ ,trail:·
 set inccommand=split
 
-set completeopt=menuone,noinsert,noselect
+set completeopt=menu,menuone,noselect
 set shortmess+=c
 
 set background=dark
@@ -72,14 +73,83 @@ hi LspDiagnosticsUnderlineWarning guifg=NONE ctermfg=NONE cterm=underline gui=un
 hi LspDiagnosticsUnderlineInformation guifg=NONE ctermfg=NONE cterm=underline gui=underline
 hi LspDiagnosticsUnderlineHint guifg=NONE ctermfg=NONE cterm=underline gui=underline
 
+" Completion
+lua <<EOF
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    vsnip = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    spell = true;
+    tags = true;
+    snippets_nvim = true;
+  };
+}
+
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
+  else
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+EOF
+"inoremap <silent><expr> <C-Space> compe#complete()
+"inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+"inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+
 lua <<EOF
 -- nvim_lsp object
 local nvim_lsp = require'lspconfig'
-
--- function to attach completion when setting up lsp
-local on_attach = function(client)
-    require'completion'.on_attach(client)
-end
 
 -- Erlang LS
 local configs = require 'lspconfig/configs'
@@ -108,8 +178,14 @@ configs.erlangls.setup{}
 
 -- enable ccls
 nvim_lsp.ccls.setup{}
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- Enable rust_analyzer
-nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
+nvim_lsp.rust_analyzer.setup({
+    capabilities=capabilities,
+    on_attach=on_attach
+})
 
 -- Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -135,7 +211,8 @@ require'nvim-treesitter.configs'.setup {
   },
   rainbow = {
     enable = true
-  }
+  },
+  ensure_installed = "maintained"
 }
 EOF
 
@@ -165,8 +242,8 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " use <Tab> as trigger keys
-imap <Tab> <Plug>(completion_smart_tab)
-imap <S-Tab> <Plug>(completion_smart_s_tab)
+"imap <Tab> <Plug>(completion_smart_tab)
+"imap <S-Tab> <Plug>(completion_smart_s_tab)
 
 let g:nvim_tree_quit_on_open = 1 
 nnoremap ; :
