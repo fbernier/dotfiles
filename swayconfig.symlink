@@ -26,7 +26,7 @@ set $menu 'rofi -combi-modi drun,ssh -font "iosevka 15" -show combi'
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/francois.bernier/rust_old.png fill
+output * bg /home/fbernier/rust_old.png fill
 #
 # Example configuration:
 #
@@ -35,8 +35,8 @@ output * bg /home/francois.bernier/rust_old.png fill
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 #output HDMI-A-1 pos 0 0 res 5120x1440
 #output HDMI-A-1 pos 0 0 res 3840x1080
-output DP-1 pos 0 0 res 5120x1440
-output eDP-1 pos 1920 1440 res 1920x1080
+output DP-2 pos 0 0 res 5120x1440
+output eDP-1 pos 1920 1440 res 1920x1200
 #output * adaptive_sync on
 
 ### Idle configuration
@@ -240,7 +240,7 @@ include /etc/sway/config.d/*
 ## CUSTOM
 workspace 1  output eDP-1
 workspace 2  output eDP-1
-workspace 3  output HDMI-A-1
+workspace 3  output DP-2
 
 bindsym $mod+Control+Shift+Right move workspace to output right
 bindsym $mod+Control+Shift+Left move workspace to output left
@@ -264,15 +264,17 @@ bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 exec_always ~/.config/sway/clamshell.sh
 
-font Iosevka Medium 11
+font Iosevka Medium 14
 
 set $lock swaylock -f -c 550000
 exec swayidle -w \
     timeout 600 '$lock' \
-    #disable because char repeat bug
-    #timeout 570 'swaymsg "output * dpms off"' \
-    #resume 'swaymsg "output * dpms on"' \
+    timeout 570 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
     before-sleep '$lock'
 
 set $lockman exec bash ~/.config/sway/lockman.sh
 bindsym $mod+Control+l exec $lockman
+exec wlsunset -l 45.5 -L -73.6
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec blueman-applet
