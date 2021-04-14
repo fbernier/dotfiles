@@ -56,7 +56,7 @@
     // -------------------------------------------------------------------------
 
     "battery": {
-        "interval": 1,
+        "interval": 10,
         "states": {
             "warning": 30,
             "critical": 15
@@ -74,7 +74,7 @@
     },
 
     "clock#time": {
-        "interval": 10,
+        "interval": 1,
         "format": "{:%H:%M}",
         "tooltip": false
     },
@@ -87,7 +87,7 @@
     },
 
     "cpu": {
-        "interval": 5,
+        "interval": 1,
         "tooltip": false,
         "format": " {usage}%", // Icon: microchip
         "states": {
@@ -107,7 +107,7 @@
     },
 
     "memory": {
-        "interval": 5,
+        "interval": 1,
         "format": " {}%", // Icon: memory
         "states": {
             "warning": 70,
@@ -172,7 +172,7 @@
 
     "temperature": {
         "critical-threshold": 90,
-        "interval": 5,
+        "interval": 1,
         //"format": "{icon} {temperatureC}°C",
 	    "format": "{icon} {temperatureC}°",
         "format-icons": [

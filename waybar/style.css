@@ -40,7 +40,7 @@
 /* COLORS */
 
 /* Nord */
-/*@define-color light #eceff4;
+@define-color light #eceff4;
 @define-color dark #2e3440;
 @define-color warning #ebcb8b;
 @define-color critical #d08770;
@@ -55,9 +55,10 @@
 @define-color layout #5e81ac;
 @define-color battery #88c0d0;
 @define-color date #2e3440;
-@define-color time #eceff4;*/
+@define-color time #eceff4;
 
 /* Gruvbox */
+/*
 @define-color light #ebdbb2;
 @define-color dark #282828;
 @define-color warning #fabd2f;
@@ -74,6 +75,7 @@
 @define-color battery #fabd2f;
 @define-color date #282828;
 @define-color time #ebdbb2;
+*/
 
 /* Reset all styles */
 * {
@@ -88,7 +90,7 @@
 #waybar {
     background: transparent;
     color: @light;
-    font-family: Iosevka, xos4 Terminus, FiraCode, Noto Sans;
+    font-family: Iosevka Mayukai, xos4 Terminus, FiraCode, Noto Sans;
     font-size: 16pt;
     font-weight: bold;
 }
@@ -197,6 +199,7 @@
 }
 
 #cpu {
+    min-width:  62px;
     background: @cpu;
     color: @light;
 }

@@ -21,7 +21,7 @@ set $term alacritty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $menu 'rofi -combi-modi drun,ssh -font "iosevka 15" -show combi'
+set $menu 'rofi -combi-modi drun,ssh -font "iosevka mayukai 15" -show combi'
 
 ### Output configuration
 #
@@ -36,8 +36,9 @@ output * bg /home/fbernier/rust_old.png fill
 #output HDMI-A-1 pos 0 0 res 5120x1440
 #output HDMI-A-1 pos 0 0 res 3840x1080
 output DP-2 pos 0 0 res 5120x1440
-output eDP-1 pos 1920 1440 res 1920x1200
+output eDP-1 pos 0 1440 res 1920x1200
 #output * adaptive_sync on
+#output * max_render_time 1
 
 ### Idle configuration
 #
@@ -69,6 +70,14 @@ input "2:14:SynPS/2_Synaptics_TouchPad" {
 
 # man 7 xkeyboard-config for xkb_options
 input "1:1:AT_Translated_Set_2_keyboard" {
+    repeat_delay 220
+    repeat_rate 60
+    xkb_layout us,ca
+    #xkb_variant altgr-intl
+    xkb_options caps:super,grp:win_space_toggle,shift:both_capslock
+}
+
+input "9494:87:Cooler_Master_Technology_Inc._MasterKeys_S" {
     repeat_delay 220
     repeat_rate 60
     xkb_layout us,ca
@@ -236,6 +245,7 @@ bar {
 }
 
 include /etc/sway/config.d/*
+include base16-nord
 
 ## CUSTOM
 workspace 1  output eDP-1
@@ -264,7 +274,15 @@ bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 exec_always ~/.config/sway/clamshell.sh
 
-font Iosevka Medium 14
+font Iosevka Mayukai, FontAwesome, Medium 14
+
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Nordic'
+    gsettings set $gnome-schema icon-theme 'Nordic'
+    gsettings set $gnome-schema cursor-theme 'Nordic'
+    gsettings set $gnome-schema font-name 'Iosevka Mayukai'
+}
 
 set $lock swaylock -f -c 550000
 exec swayidle -w \
