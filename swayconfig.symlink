@@ -26,7 +26,7 @@ set $menu 'rofi -combi-modi drun,ssh -font "iosevka mayukai 15" -show combi'
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/fbernier/rust_old.png fill
+output * bg /home/fbernier/wp4.jpg fill
 #
 # Example configuration:
 #
@@ -293,6 +293,11 @@ exec swayidle -w \
 
 set $lockman exec bash ~/.config/sway/lockman.sh
 bindsym $mod+Control+l exec $lockman
+
 exec wlsunset -l 45.5 -L -73.6
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec blueman-applet
+
+for_window [app_id="Alacritty"] border pixel 5
+for_window [title="Choose ONE of the audio conference options"] floating enable
+for_window [title="zoom"] floating enable

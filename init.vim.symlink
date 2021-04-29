@@ -24,6 +24,7 @@ Plug 'kyazdani42/nvim-tree.lua'
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'romgrk/barbar.nvim'
 Plug 'windwp/nvim-autopairs'
 
 call plug#end()
@@ -86,17 +87,15 @@ vim.g.completion_confirm_key = ""
 MUtils.completion_confirm=function()
   if vim.fn.pumvisible() ~= 0  then
     if vim.fn.complete_info()["selected"] ~= -1 then
-      vim.fn["compe#confirm"]()
-      return npairs.esc("")
+      return vim.fn["compe#confirm"](npairs.esc("<c-r>"))
     else
-      vim.api.nvim_select_popupmenu_item(0, false, false, {})
-      vim.fn["compe#confirm"]()
-      return npairs.esc("<c-n>")
+      return npairs.esc("<cr>")
     end
   else
-    return npairs.check_break_line_char()
+    return npairs.autopairs_cr()
   end
 end
+
 
 remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
 npairs.setup()
@@ -205,6 +204,31 @@ configs.erlangls.setup{}
 -- enable ccls
 nvim_lsp.ccls.setup{}
 
+local on_attach = function(client)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
+    local opts = {noremap = true, silent = true}
+    buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+    buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+    buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+    buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+    buf_set_keymap("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
+    buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
+    buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
+
+  -- auto-format on save
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_exec([[
+      augroup lsp_document_highlight
+      autocmd! * <buffer>
+      autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+      augroup END
+    ]], false)
+  end
+end
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- Enable rust_analyzer
@@ -271,7 +295,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "imap <Tab> <Plug>(completion_smart_tab)
 "imap <S-Tab> <Plug>(completion_smart_s_tab)
 
-let g:nvim_tree_quit_on_open = 1 
+let g:nvim_tree_quit_on_open = 1
 nnoremap ; :
 
 luafile ~/.local/share/nvim/plugged/galaxyline.nvim/example/spaceline.lua
@@ -294,3 +318,54 @@ vnoremap <Tab> >gv|
 vnoremap <S-Tab> <gv
 
 nnoremap <Leader><Tab> <C-^>
+
+" vim -b : edit binary using xxd-format!
+augroup Binary
+    au!
+    au BufReadPre  *.bin let &bin=1
+    au BufReadPost *.bin if &bin | %!xxd
+    au BufReadPost *.bin set ft=xxd | endif
+    au BufWritePre *.bin if &bin | %!xxd -r
+    au BufWritePre *.bin endif
+    au BufWritePost *.bin if &bin | %!xxd
+    au BufWritePost *.bin set nomod | endif
+augroup END
+
+" Move to previous/next
+nnoremap <silent>    <A-,> :BufferPrevious<CR>
+nnoremap <silent>    <A-.> :BufferNext<CR>
+" Re-order to previous/next
+nnoremap <silent>    <A-<> :BufferMovePrevious<CR>
+nnoremap <silent>    <A->> :BufferMoveNext<CR>
+" Goto buffer in position...
+nnoremap <silent>    <A-1> :BufferGoto 1<CR>
+nnoremap <silent>    <A-2> :BufferGoto 2<CR>
+nnoremap <silent>    <A-3> :BufferGoto 3<CR>
+nnoremap <silent>    <A-4> :BufferGoto 4<CR>
+nnoremap <silent>    <A-5> :BufferGoto 5<CR>
+nnoremap <silent>    <A-6> :BufferGoto 6<CR>
+nnoremap <silent>    <A-7> :BufferGoto 7<CR>
+nnoremap <silent>    <A-8> :BufferGoto 8<CR>
+nnoremap <silent>    <A-9> :BufferLast<CR>
+" Close buffer
+nnoremap <silent>    <A-c> :BufferClose<CR>
+" Wipeout buffer
+"                          :BufferWipeout<CR>
+" Close commands
+"                          :BufferCloseAllButCurrent<CR>
+"                          :BufferCloseBuffersLeft<CR>
+"                          :BufferCloseBuffersRight<CR>
+" Magic buffer-picking mode
+nnoremap <silent> <C-s>    :BufferPick<CR>
+" Sort automatically by...
+nnoremap <silent> <Space>bd :BufferOrderByDirectory<CR>
+nnoremap <silent> <Space>bl :BufferOrderByLanguage<CR>
+
+" Other:
+" :BarbarEnable - enables barbar (enabled by default)
+" :BarbarDisable - very bad command, should never be used
+
+set mouse=a
+let bufferline = get(g:, 'bufferline', {})
+let bufferline.clickable = v:true
+let bufferline.closable = v:true
