@@ -108,7 +108,8 @@
 
     "memory": {
         "interval": 1,
-        "format": " {}%", // Icon: memory
+        //"format": " {}%", // Icon: memory fontawesome 5
+        "format": " {}%", // Icon: memory nerdfont
         "states": {
             "warning": 70,
             "critical": 90

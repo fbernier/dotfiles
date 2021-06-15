@@ -21,7 +21,7 @@ set $term alacritty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $menu 'rofi -combi-modi drun,ssh -font "iosevka mayukai 15" -show combi'
+set $menu 'rofi -combi-modi drun,ssh -font "Iosevka Mayukai Original Medium 16" -show combi'
 
 ### Output configuration
 #
@@ -81,8 +81,13 @@ input "9494:87:Cooler_Master_Technology_Inc._MasterKeys_S" {
     repeat_delay 220
     repeat_rate 60
     xkb_layout us,ca
-    #xkb_variant altgr-intl
+    #xkb_layout us,colemak,ca
+    #xkb_variant ,cmk_ed_dh,
     xkb_options caps:super,grp:win_space_toggle,shift:both_capslock
+}
+
+input "1133:16534:Logitech_ERGO_M575" {
+    pointer_accel 1
 }
 
 ### Key bindings
@@ -137,8 +142,10 @@ input "9494:87:Cooler_Master_Technology_Inc._MasterKeys_S" {
 #
 # Workspaces:
 #
+    set $map-to-active swaymsg input type:tablet_tool map_to_output `swaymsg -t get_outputs | jq -r '.[] | select(.focused == true) | .name'`
+
     # Switch to workspace
-    bindsym $mod+1 workspace number 1
+    bindsym $mod+1 workspace number 1 ; exec $map-to-active
     bindsym $mod+2 workspace number 2
     bindsym $mod+3 workspace number 3
     bindsym $mod+4 workspace number 4
@@ -274,14 +281,14 @@ bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 exec_always ~/.config/sway/clamshell.sh
 
-font Iosevka Mayukai, FontAwesome, Medium 14
+font Iosevka Mayukai Original, FontAwesome, Medium 14
 
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
     gsettings set $gnome-schema gtk-theme 'Nordic'
     gsettings set $gnome-schema icon-theme 'Nordic'
     gsettings set $gnome-schema cursor-theme 'Nordic'
-    gsettings set $gnome-schema font-name 'Iosevka Mayukai'
+    gsettings set $gnome-schema font-name 'Iosevka Mayukai Original 14'
 }
 
 set $lock swaylock -f -c 550000

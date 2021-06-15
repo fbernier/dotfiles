@@ -90,7 +90,7 @@
 #waybar {
     background: transparent;
     color: @light;
-    font-family: Iosevka Mayukai, xos4 Terminus, FiraCode, Noto Sans;
+    font-family: Iosevka Mayukai Original, xos4 Terminus, FiraCode, Noto Sans;
     font-size: 16pt;
     font-weight: bold;
 }

@@ -34,6 +34,7 @@
   pf = push --force-with-lease
 [core]
   editor = nvim
+  pager = delta
   excludesfile = /home/fbernier/.global_ignore
   commentchar = $
 [commit]
@@ -41,3 +42,16 @@
 [rerere]
 	enabled = true
 	autoupdate = true
+
+[core]
+    pager = delta
+
+[delta]
+    #plus-style = "syntax #012800"
+    #minus-style = "syntax #340001"
+    syntax-theme = Nord
+    navigate = true
+    line-numbers = true
+
+[interactive]
+    diffFilter = delta --color-only
