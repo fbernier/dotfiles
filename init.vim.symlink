@@ -20,9 +20,10 @@ Plug 'fnune/base16-vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/nvim-compe'
+Plug 'ray-x/lsp_signature.nvim'
 
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'windwp/windline.nvim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
@@ -76,8 +77,16 @@ hi LspDiagnosticsUnderlineWarning guifg=NONE ctermfg=NONE cterm=underline gui=un
 hi LspDiagnosticsUnderlineInformation guifg=NONE ctermfg=NONE cterm=underline gui=underline
 hi LspDiagnosticsUnderlineHint guifg=NONE ctermfg=NONE cterm=underline gui=underline
 
+" Quick-fix
+nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+
 " Completion
 lua <<EOF
+local windline = require('windline')
+require('wlsample.evil_line')
+
+require'nvim-tree'.setup()
+
 local remap = vim.api.nvim_set_keymap
 local npairs = require('nvim-autopairs')
 
@@ -228,6 +237,8 @@ local on_attach = function(client)
       augroup END
     ]], false)
   end
+
+  require "lsp_signature".on_attach()
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -251,6 +262,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { focusable = false } )
+
+-- Enable codelens
+
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
 vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
 vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
@@ -273,7 +288,7 @@ set updatetime=300
 augroup lsp
     autocmd!
     " Show diagnostic popup on cursor hold
-    autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+    autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
     " Enable type inlay hints
     autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs
     \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
@@ -298,8 +313,6 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 let g:nvim_tree_quit_on_open = 1
 nnoremap ; :
-
-luafile ~/.local/share/nvim/plugged/galaxyline.nvim/example/spaceline.lua
 
 " Telescope (fuzzy finder)
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
