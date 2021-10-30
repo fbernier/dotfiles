@@ -286,9 +286,9 @@ font Iosevka Mayukai Original, FontAwesome, Medium 14
 
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
-    gsettings set $gnome-schema gtk-theme 'Nordic'
-    gsettings set $gnome-schema icon-theme 'Nordic'
-    gsettings set $gnome-schema cursor-theme 'Nordic'
+    gsettings set $gnome-schema gtk-theme 'Nordic-darker'
+    gsettings set $gnome-schema icon-theme 'Nordic-darker'
+    gsettings set $gnome-schema cursor-theme "Adwaita"
     gsettings set $gnome-schema font-name 'Iosevka Mayukai Original 14'
 }
 
