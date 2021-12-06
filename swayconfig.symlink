@@ -303,6 +303,7 @@ set $lockman exec bash ~/.config/sway/lockman.sh
 bindsym $mod+Control+l exec $lockman
 
 exec wlsunset -l 45.5 -L -73.6
+#exec waysct
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec blueman-applet
 

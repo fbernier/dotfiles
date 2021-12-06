@@ -15,6 +15,7 @@ Plug 'nvim-lua/lsp-status.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
 
 Plug 'fnune/base16-vim'
 
@@ -135,6 +136,7 @@ local opts = {
 }
 
 require('rust-tools').setup(opts)
+require('telescope').load_extension('lsp_handlers')
 
 require'nvim-treesitter.configs'.setup {
   highlight = {

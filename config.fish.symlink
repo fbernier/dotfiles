@@ -1,0 +1,36 @@
+set -gx XDG_CURRENT_DESKTOP 'sway'
+set -gx XDG_SESSION_TYPE 'wayland'
+set -gx MOZ_DBUS_REMOTE 1
+set -gx MOZ_WEBRENDER 1
+set -gx MOZ_ENABLE_WAYLAND 1
+set -gx _JAVA_AWT_WM_NONREPARENTING 1
+set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION 1
+set -gx QT_WAYLAND_FORCE_DPI 'physical'
+set -gx QT_QPA_PLATFORM 'wayland'
+set -gx SDL_VIDEODRIVER 'wayland'
+set -gx LIBVA_DRIVER_NAME 'iHD'
+set -gx RUSTC_WRAPPER 'sccache'
+set -gx GDK_BACKEND 'wayland'
+set -gx MOZ_WAYLAND_DRM_DEVICE '/dev/dri/renderD128'
+
+set -gx VISUAL 'nvim'
+set -gx EDITOR "$VISUAL"
+set -gx SYSTEMD_EDITOR "$VISUAL"
+
+set -x PATH $PATH $HOME/go/bin
+
+set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
+
+if status --is-login
+    if test (tty) = /dev/tty1
+        exec sway 2> .sway.log
+    end
+end
+
+# Base16 Shell
+if status --is-interactive
+    set BASE16_SHELL "$HOME/.config/base16-shell/"
+    source "$BASE16_SHELL/profile_helper.fish"
+end
+
+fish_vi_key_bindings
