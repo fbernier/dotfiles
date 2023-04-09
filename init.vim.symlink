@@ -9,6 +9,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'stevearc/dressing.nvim'
 
 Plug 'neovim/nvim-lspconfig'
+Plug 'simrat39/inlay-hints.nvim'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
@@ -39,6 +40,8 @@ Plug 'p00f/nvim-ts-rainbow'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
 Plug 'windwp/nvim-autopairs'
+
+Plug 'https://codeberg.org/ngn/k', { 'rtp':  'vim-k' }
 
 call plug#end()
 
@@ -86,10 +89,15 @@ EOF
 
 lua <<EOF
 
+local rt = require('rust-tools')
 local nvim_lsp = require'lspconfig'
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-local on_attach = function(client)
+local on_attach = function(client, bufnr)
+
+  -- Hover actions
+  vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+
   -- auto-format on save
   if client.server_capabilities.documentFormattingProvider then
     vim.api.nvim_exec([[
@@ -103,8 +111,10 @@ end
 
 local opts = {
     tools = {
+        inlay_hints = {
+            auto = false,
+        },
         autoSetHints = true,
-        hover_with_actions = true,
         runnables = {
             use_telescope = true
         },
@@ -135,7 +145,7 @@ local opts = {
     },
 }
 
-require('rust-tools').setup(opts)
+rt.setup(opts)
 
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -295,6 +305,9 @@ nnoremap <silent> <Space>bl :BufferOrderByLanguage<CR>
 " :BarbarDisable - very bad command, should never be used
 
 set mouse=a
-let bufferline = get(g:, 'bufferline', {})
-let bufferline.clickable = v:true
-let bufferline.closable = v:true
+lua << EOF
+    require'barbar'.setup {
+        clickable = true,
+        closable = true
+    }
+EOF
