@@ -10,8 +10,7 @@ Plug 'stevearc/dressing.nvim'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'simrat39/inlay-hints.nvim'
-Plug 'simrat39/rust-tools.nvim'
-Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'ryo33/rust-tools.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 
 Plug 'nvim-lua/popup.nvim'
@@ -32,6 +31,8 @@ Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-buffer'
 
+Plug 'smjonas/inc-rename.nvim'
+
 "Plug 'ray-x/lsp_signature.nvim'
 
 Plug 'kyazdani42/nvim-tree.lua'
@@ -42,6 +43,12 @@ Plug 'romgrk/barbar.nvim'
 Plug 'windwp/nvim-autopairs'
 
 Plug 'https://codeberg.org/ngn/k', { 'rtp':  'vim-k' }
+
+"Plug 'ojroques/nvim-oh clipboard-osc52sc52'
+
+Plug 'j-hui/fidget.nvim' ", { 'tag': 'legacy' }
+
+"Plug 'github/copilot.vim'
 
 call plug#end()
 
@@ -57,6 +64,7 @@ set directory=~/.vim/backup
 syntax enable
 filetype plugin indent on
 set clipboard=unnamed,unnamedplus
+
 set scrolloff=8
 set smartindent
 set expandtab
@@ -77,6 +85,10 @@ set wildmenu
 set autoread
 set hidden
 
+lua <<EOF
+ vim.loader.enable()
+EOF
+
 " Completion
 lua <<EOF
 local windline = require('windline')
@@ -85,14 +97,36 @@ require('wlsample.evil_line')
 require'nvim-tree'.setup()
 
 local remap = vim.api.nvim_set_keymap
+
+-- clipboard
+--vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+--vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
+--vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
 EOF
 
 lua <<EOF
+
+local osc52 = require('vim.ui.clipboard.osc52')
+
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+      ['+'] = osc52.copy('+'),
+      ['*'] = osc52.copy('*'),
+    },
+    paste = {
+      ['+'] = osc52.paste('+'),
+      ['*'] = osc52.paste('*'),
+    },
+  }
+
 
 local rt = require('rust-tools')
 local nvim_lsp = require'lspconfig'
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- FIXME slowness
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 local on_attach = function(client, bufnr)
 
   -- Hover actions
@@ -146,6 +180,10 @@ local opts = {
 }
 
 rt.setup(opts)
+
+require("fidget").setup {
+  -- options
+}
 
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -221,6 +259,14 @@ require('nvim-autopairs').setup({check_ts = true})
 -- If you want insert `(` after select function or method item
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
+
+require("inc_rename").setup {
+  input_buffer_type = "dressing",
+}
+
+vim.keymap.set("n", "<leader>rn", function()
+  return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })
 EOF
 
 " have a fixed column for the diagnostics to appear in
@@ -236,8 +282,8 @@ lua vim.diagnostic.config({ float = { focusable = false }})
 autocmd CursorHold * lua vim.diagnostic.open_float()
 
 " Goto previous/next diagnostic warning/error
-nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> g[ <cmd>lua vim.diagnostic.goto_prev()<CR>
+nnoremap <silent> g] <cmd>lua vim.diagnostic.goto_next()<CR>
 
 " Telescope (fuzzy finder)
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
